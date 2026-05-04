@@ -13,7 +13,7 @@ var isValidAddress = function (_address) {
         return false;
     }
     var decoded = cryptoUtils.toHex(cryptoUtils.base32.b32decode(address));
-    var stepThreeChecksum = cryptoUtils.keccak256Checksum(Buffer.from(decoded.slice(0, 42), 'hex'));
+    var stepThreeChecksum = cryptoUtils.keccak256Checksum(cryptoUtils.hexStr2byteArray(decoded.slice(0, 42)));
     return stepThreeChecksum === decoded.slice(42);
 };
 module.exports = {

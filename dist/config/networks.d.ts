@@ -135,6 +135,9 @@ export declare const networkOptions: readonly [{
     readonly label: "IOTA";
 }, {
     readonly value: "avaxc";
+    readonly label: "Avalanche C-Chain (AVAXC)";
+}, {
+    readonly value: "cchain";
     readonly label: "Avalanche C-Chain";
 }, {
     readonly value: "arb";

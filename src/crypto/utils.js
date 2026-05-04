@@ -1,4 +1,6 @@
-var crypto = require('crypto');
+var sha256 = require('js-sha256').sha256;
+var sha512_256 = require('js-sha512').sha512_256;
+var Buffer = require('buffer').Buffer;
 var Blake256 = require('./blake256');
 var keccak256 = require('./sha3')['keccak256'];
 var Blake2B = require('./blake2b');
@@ -93,6 +95,18 @@ function toBuffer(payload, format) {
     return Buffer.from(String(payload), format === 'HEX' ? 'hex' : 'utf8');
 }
 
+function toHashInput(payload, format) {
+    if (typeof payload === 'string' && format === 'HEX') {
+        return hexStr2byteArray(payload);
+    }
+
+    if (Array.isArray(payload) || ArrayBuffer.isView(payload) || payload instanceof ArrayBuffer) {
+        return payload;
+    }
+
+    return payload;
+}
+
 module.exports = {
     numberToHex: numberToHex,
     toHex: function (arrayOfBytes) {
@@ -103,7 +117,9 @@ module.exports = {
         return hex;
     },
     sha256: function (payload, format = 'HEX') {
-        return crypto.createHash('sha256').update(toBuffer(payload, format)).digest('hex').toUpperCase();
+        var hash = sha256.create();
+        hash.update(toHashInput(payload, format));
+        return hash.hex().toUpperCase();
     },
     sha256x2: function (buffer, format = 'HEX') {
         return this.sha256(this.sha256(buffer, format), format);
@@ -112,7 +128,9 @@ module.exports = {
         return this.sha256(this.sha256(payload)).substr(0, 8);
     },
     sha512_256: function (payload, format = 'HEX') {
-        return crypto.createHash('sha512-256').update(toBuffer(payload, format)).digest('hex').toUpperCase();
+        var hash = sha512_256.create();
+        hash.update(toHashInput(payload, format));
+        return hash.hex().toUpperCase();
     },
     blake256: function (hexString) {
         return new Blake256().update(hexString, 'hex').digest('hex');

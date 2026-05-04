@@ -18,7 +18,7 @@ function getChecksum(hashFunction, payload) {
         // blake then keccak hash chain
         case 'blake256keccak256':
             var blake = cryptoUtils.blake2b256(payload);
-            return cryptoUtils.keccak256Checksum(Buffer.from(blake, 'hex'));
+            return cryptoUtils.keccak256Checksum(cryptoUtils.hexStr2byteArray(blake));
         case 'blake256':
             return cryptoUtils.blake256Checksum(payload);
         case 'keccak256':
