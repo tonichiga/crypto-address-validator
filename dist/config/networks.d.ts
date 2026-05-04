@@ -1,4 +1,4 @@
-type ValidatorModule = {
+export type ValidatorModule = {
     isValidAddress: (address: string, currency?: Record<string, unknown>, opts?: Record<string, unknown>) => boolean;
 };
 export type NetworkValidationConfig = {
@@ -179,4 +179,3 @@ export declare const networkOptions: readonly [{
 export declare const normalizeNetworkKey: (network: string) => string;
 export declare const validationMap: Record<string, NetworkValidationConfig>;
 export declare const getNetworkValidation: (network: string) => NetworkValidationConfig | null;
-export {};

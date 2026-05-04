@@ -1,6 +1,6 @@
 {
-  "name": "crypto-wallet-validator",
-  "version": "0.0.1",
+  "name": "@4i/crypto-address-validator",
+  "version": "1.0.2",
   "description": "Network-based cryptocurrency wallet address validator.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,10 +36,22 @@
   "author": "",
   "keywords": [
     "crypto",
+    "cryptocurrency",
     "wallet",
     "validator",
     "address",
-    "blockchain"
+    "blockchain",
+    "web3",
+    "evm",
+    "bitcoin",
+    "ethereum",
+    "erc20",
+    "trc20",
+    "bep20",
+    "solana",
+    "ton",
+    "react-native",
+    "browser"
   ],
   "license": "MIT",
   "type": "commonjs",

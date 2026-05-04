@@ -1,31 +1,40 @@
-import { getNetworkValidation } from './config/networks';
+import { getNetworkValidation, ValidatorModule } from "./config/networks";
 
-export const validate = (network: string, address: string): boolean => {
+export const validate = (
+  network: string,
+  address: string,
+): {
+  isValid: boolean;
+  validator: ValidatorModule | string;
+} => {
   if (!network || !address) {
-    return false;
+    return { isValid: false, validator: null };
   }
 
   const trimmedAddress = address.trim();
   if (!trimmedAddress) {
-    return false;
+    return { isValid: false, validator: null };
   }
 
   const validation = getNetworkValidation(network);
   if (!validation) {
-    return false;
+    return { isValid: false, validator: null };
   }
 
   if (validation.regex && !validation.regex.test(trimmedAddress)) {
-    return false;
+    return { isValid: false, validator: null };
   }
 
   if (!validation.validator) {
-    return Boolean(validation.regex);
+    return { isValid: Boolean(validation.regex), validator: null };
   }
 
-  return validation.validator.isValidAddress(
-    trimmedAddress,
-    validation.currency,
-    validation.opts,
-  );
+  return {
+    isValid: validation.validator.isValidAddress(
+      trimmedAddress,
+      validation.currency,
+      validation.opts,
+    ),
+    validator: validation.validator,
+  };
 };

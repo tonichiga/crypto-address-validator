@@ -4,22 +4,25 @@ exports.validate = void 0;
 const networks_1 = require("./config/networks");
 const validate = (network, address) => {
     if (!network || !address) {
-        return false;
+        return { isValid: false, validator: null };
     }
     const trimmedAddress = address.trim();
     if (!trimmedAddress) {
-        return false;
+        return { isValid: false, validator: null };
     }
     const validation = (0, networks_1.getNetworkValidation)(network);
     if (!validation) {
-        return false;
+        return { isValid: false, validator: null };
     }
     if (validation.regex && !validation.regex.test(trimmedAddress)) {
-        return false;
+        return { isValid: false, validator: null };
     }
     if (!validation.validator) {
-        return Boolean(validation.regex);
+        return { isValid: Boolean(validation.regex), validator: null };
     }
-    return validation.validator.isValidAddress(trimmedAddress, validation.currency, validation.opts);
+    return {
+        isValid: validation.validator.isValidAddress(trimmedAddress, validation.currency, validation.opts),
+        validator: validation.validator,
+    };
 };
 exports.validate = validate;

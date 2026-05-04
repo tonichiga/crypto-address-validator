@@ -1,6 +1,6 @@
 declare function require(path: string): any;
 
-type ValidatorModule = {
+export type ValidatorModule = {
   isValidAddress: (
     address: string,
     currency?: Record<string, unknown>,
