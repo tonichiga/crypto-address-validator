@@ -1,0 +1,18 @@
+export function numberToHex(number: any, length: any): any;
+export function byteArray2hexStr(byteArray: any): string;
+export function hexStr2byteArray(str: any): any[];
+import base32 = require("./base32");
+export declare function toHex(arrayOfBytes: any): string;
+export declare function sha256(payload: any, format?: string): any;
+export declare function sha256x2(buffer: any, format?: string): any;
+export declare function sha256Checksum(payload: any): any;
+export declare function sha512_256(payload: any, format?: string): any;
+export declare function blake256(hexString: any): any;
+export declare function blake256Checksum(payload: any): any;
+export declare function blake2b(hexString: any, outlen: any): any;
+export declare function keccak256(hexString: any): any;
+export declare function keccak256Checksum(payload: any): any;
+export declare function blake2b256(hexString: any): any;
+export declare let base58: (string: any) => number[];
+export declare function bigNumberToBuffer(bignumber: any, size: any): any;
+export { base32 };

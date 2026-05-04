@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Address Validator Test</title>
+  </head>
+  <body
+    style="font-family: Arial, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 16px; background: #fafafa; color: #111827;"
+  >
+    <div
+      style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 24px; box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);"
+    >
+      <h1 style="margin: 0 0 8px; font-size: 28px;">Address validator test</h1>
+      <p style="margin: 0 0 20px; color: #6b7280;">Uses the real <code>validate()</code> in the browser bundle.</p>
+
+      <form id="validator-form" style="display: grid; gap: 14px;">
+        <label style="display: grid; gap: 8px; font-weight: 600;">
+        Network
+          <select
+            id="network"
+            required
+            style="font: inherit; padding: 12px 14px; border: 1px solid #d1d5db; border-radius: 10px; background: #fff;"
+          ></select>
+        </label>
+
+        <label style="display: grid; gap: 8px; font-weight: 600;">
+        Address
+          <textarea
+            id="address"
+            placeholder="Paste wallet address here"
+            required
+            style="font: inherit; min-height: 120px; resize: vertical; padding: 12px 14px; border: 1px solid #d1d5db; border-radius: 10px; background: #fff;"
+          ></textarea>
+        </label>
+
+        <button
+          type="submit"
+          style="font: inherit; padding: 12px 16px; border: 0; border-radius: 10px; background: #111827; color: #fff; cursor: pointer;"
+        >
+          Validate
+        </button>
+      </form>
+
+      <div
+        id="result"
+        style="margin-top: 16px; padding: 14px 16px; border-radius: 10px; background: #f3f4f6; color: #374151;"
+      >
+        Enter a network and address.
+      </div>
+    </div>
+
+    <script src="./dist/browser.js"></script>
+    <script>
+      const runtime = globalThis.cryptoWalletValidator;
+      const networkSelect = document.getElementById("network");
+      const addressInput = document.getElementById("address");
+      const resultNode = document.getElementById("result");
+      const form = document.getElementById("validator-form");
+
+      function setResult(text, isValid) {
+        resultNode.textContent = text;
+        resultNode.style.background = isValid === null
+          ? "#f3f4f6"
+          : isValid
+            ? "#ecfdf3"
+            : "#fef3f2";
+        resultNode.style.color = isValid === null
+          ? "#374151"
+          : isValid
+            ? "#027a48"
+            : "#b42318";
+      }
+
+      function loadNetworks() {
+        runtime.networkOptions.forEach((network) => {
+          const option = document.createElement("option");
+          option.value = network.value;
+          option.textContent = network.label;
+          networkSelect.appendChild(option);
+        });
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const valid = runtime.validate(
+          networkSelect.value,
+          addressInput.value.trim()
+        );
+
+        setResult(
+          valid
+            ? `Valid ${networkSelect.options[networkSelect.selectedIndex].text} address`
+            : `Invalid ${networkSelect.options[networkSelect.selectedIndex].text} address`,
+          valid
+        );
+      });
+
+      if (!runtime || typeof runtime.validate !== "function") {
+        setResult("Browser bundle is not loaded. Run npm run build.", false);
+      } else {
+        loadNetworks();
+      }
+    </script>
+  </body>
+</html>

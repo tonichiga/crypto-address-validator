@@ -1,0 +1,54 @@
+{
+  "name": "crypto-wallet-validator",
+  "version": "1.0.0",
+  "description": "Network-based cryptocurrency wallet address validator.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./validator": {
+      "types": "./dist/validator.d.ts",
+      "require": "./dist/validator.js",
+      "default": "./dist/validator.js"
+    },
+    "./config/networks": {
+      "types": "./dist/config/networks.d.ts",
+      "require": "./dist/config/networks.js",
+      "default": "./dist/config/networks.js"
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc -p tsconfig.json && browserify browser-entry.js -o dist/browser.js",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonichiga/crypto-wallet-validator.git"
+  },
+  "author": "",
+  "keywords": [
+    "crypto",
+    "wallet",
+    "validator",
+    "address",
+    "blockchain"
+  ],
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tonichiga/crypto-wallet-validator/issues"
+  },
+  "homepage": "https://github.com/tonichiga/crypto-wallet-validator#readme",
+  "devDependencies": {
+    "browserify": "^17.0.1",
+    "typescript": "^6.0.3"
+  }
+}
