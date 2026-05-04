@@ -5,28 +5,32 @@ export const validate = (
   address: string,
 ): {
   isValid: boolean;
-  validator: ValidatorModule | string;
+  type: ValidatorModule | "regex" | null;
 } => {
   if (!network || !address) {
-    return { isValid: false, validator: null };
+    return { isValid: false, type: null };
   }
 
   const trimmedAddress = address.trim();
   if (!trimmedAddress) {
-    return { isValid: false, validator: null };
+    return { isValid: false, type: null };
   }
 
   const validation = getNetworkValidation(network);
   if (!validation) {
-    return { isValid: false, validator: null };
+    return { isValid: false, type: null };
   }
 
-  if (validation.regex && !validation.regex.test(trimmedAddress)) {
-    return { isValid: false, validator: null };
+  const regexResult = validation.regex
+    ? validation.regex.test(trimmedAddress)
+    : null;
+
+  if (regexResult === false) {
+    return { isValid: false, type: "regex" };
   }
 
   if (!validation.validator) {
-    return { isValid: Boolean(validation.regex), validator: null };
+    return { isValid: regexResult === true, type: "regex" };
   }
 
   return {
@@ -35,6 +39,6 @@ export const validate = (
       validation.currency,
       validation.opts,
     ),
-    validator: validation.validator,
+    type: validation.validator,
   };
 };

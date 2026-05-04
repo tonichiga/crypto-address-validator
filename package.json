@@ -1,6 +1,6 @@
 {
   "name": "@4i/crypto-address-validator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Network-based cryptocurrency wallet address validator.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
